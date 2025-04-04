@@ -1,0 +1,255 @@
+body {
+  color: #333;
+  background-color: #eef2f7;
+  margin: 0;
+  padding: 0;
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 4px 15px #0000001a;
+}
+
+header {
+  text-align: center;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 35px;
+  padding-bottom: 20px;
+}
+
+header h1 {
+  color: #0056b3;
+  margin: 0 0 5px;
+  font-size: 1.8em;
+}
+
+header h2, header h3 {
+  color: #495057;
+  margin: 5px 0;
+  font-size: 1.1em;
+  font-weight: normal;
+}
+
+header p {
+  color: #6c757d;
+  margin: 5px 0;
+  font-size: .95em;
+}
+
+.login-box, .student-search, #student-details-section, #receipt-section {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  padding: 25px;
+}
+
+h2 {
+  color: #0056b3;
+  border-bottom: 1px solid #ced4da;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  font-size: 1.4em;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  color: #495057;
+  margin-bottom: 6px;
+  font-weight: 600;
+  display: block;
+}
+
+input[type="text"], input[type="password"] {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 1em;
+  transition: border-color .2s ease-in-out;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px #007bff40;
+}
+
+button {
+  color: #fff;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  transition: background-color .2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background-color: #6c757d;
+}
+
+.logout-btn {
+  background-color: #dc3545;
+  padding: 8px 15px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+#student-info p {
+  border-bottom: 1px dotted #e0e0e0;
+  margin: 10px 0;
+  padding-bottom: 10px;
+}
+
+#student-info p:last-child {
+  border-bottom: none;
+}
+
+#student-info strong {
+  color: #495057;
+  width: 160px;
+  display: inline-block;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 10px;
+  font-size: .9em;
+  font-weight: bold;
+}
+
+.button-group {
+  text-align: right;
+  margin-top: 25px;
+}
+
+.button-group button:last-child {
+  margin-right: 0;
+}
+
+#receipt-content {
+  background-color: #fff;
+  border: 1px dashed #adb5bd;
+  margin-bottom: 20px;
+  padding: 20px;
+  font-family: Courier New, Courier, monospace;
+  line-height: 1.7;
+}
+
+#receipt-content h4 {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 1.1em;
+}
+
+#receipt-content p {
+  margin: 5px 0;
+  font-size: .95em;
+}
+
+#receipt-content hr {
+  border: none;
+  border-top: 1px dashed #adb5bd;
+  margin: 10px 0;
+}
+
+#receipt-content strong {
+  width: 150px;
+  display: inline-block;
+}
+
+#dashboard-options {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#dashboard-options h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.options-group {
+  justify-content: center;
+  gap: 30px;
+  display: flex;
+}
+
+.dashboard-option-btn {
+  color: #fff;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background-color .3s, transform .2s ease-in-out;
+  box-shadow: 0 4px 8px #0000001a;
+}
+
+.dashboard-option-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px #00000026;
+}
+
+.hidden {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #receipt-section, #receipt-section * {
+    visibility: visible;
+  }
+
+  #receipt-section {
+    width: 100%;
+    box-shadow: none;
+    background-color: #fff;
+    border: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .button-group, .logout-btn, header, .student-search, #student-details-section h2, #receipt-section h2 {
+    display: none;
+  }
+
+  #receipt-content {
+    border: none;
+  }
+}
+/*# sourceMappingURL=project.3a01df49.css.map */

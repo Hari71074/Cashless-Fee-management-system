@@ -1,0 +1,261 @@
+/* Basic styling for body and container */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eef2f7; /* Light background */
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 850px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative; /* For positioning child elements like logout */
+}
+
+/* Header styling */
+header {
+    text-align: center;
+    margin-bottom: 35px;
+    border-bottom: 2px solid #dee2e6; /* Subtle border */
+    padding-bottom: 20px;
+}
+
+header h1 {
+    margin: 0 0 5px 0;
+    color: #0056b3; /* College theme color */
+    font-size: 1.8em;
+}
+header h2, header h3 {
+    margin: 5px 0;
+    color: #495057; /* Dark grey */
+    font-size: 1.1em;
+    font-weight: normal;
+}
+header p {
+    margin: 5px 0;
+    color: #6c757d; /* Lighter grey */
+    font-size: 0.95em;
+}
+
+/* Styling for different sections */
+.login-box, .student-search, #student-details-section, #receipt-section {
+    margin-bottom: 25px;
+    padding: 25px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background-color: #f8f9fa; /* Slightly off-white background for sections */
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #0056b3;
+    border-bottom: 1px solid #ced4da;
+    padding-bottom: 10px;
+    font-size: 1.4em;
+}
+
+/* Form element styling */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600; /* Bolder labels */
+    color: #495057;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle focus shadow */
+}
+
+/* Button styling */
+button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+    margin-right: 10px; /* Space between buttons */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+button:disabled {
+    background-color: #6c757d; /* Grey out disabled buttons */
+    cursor: not-allowed;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background-color: #dc3545; /* Red for logout/danger */
+    padding: 8px 15px;
+}
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* Student detail display styling */
+#student-info p {
+    margin: 10px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #e0e0e0; /* Dotted separator */
+}
+#student-info p:last-child {
+    border-bottom: none; /* Remove border from last item */
+}
+
+#student-info strong {
+    display: inline-block;
+    width: 160px; /* Consistent width for labels */
+    color: #495057;
+}
+
+/* Utility class to hide elements */
+.hidden {
+    display: none;
+}
+
+/* Error message styling */
+.error-message {
+    color: #dc3545; /* Red for errors */
+    font-size: 0.9em;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Button grouping */
+.button-group {
+    margin-top: 25px;
+    text-align: right; /* Align buttons to the right */
+}
+.button-group button:last-child {
+     margin-right: 0; /* No margin on the last button */
+}
+
+/* Receipt content styling */
+#receipt-content {
+    border: 1px dashed #adb5bd;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* White background for receipt */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for receipt */
+    line-height: 1.7;
+}
+#receipt-content h4 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+#receipt-content p {
+    margin: 5px 0;
+    font-size: 0.95em;
+}
+#receipt-content hr {
+    border: none;
+    border-top: 1px dashed #adb5bd;
+    margin: 10px 0;
+}
+#receipt-content strong {
+     display: inline-block;
+     width: 150px;
+}
+#dashboard-options {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#dashboard-options h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.options-group {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between buttons */
+}
+
+.dashboard-option-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff; /* White text */
+    background-color: #007bff; /* A common primary blue color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out; /* Smooth transitions for hover effects */
+}
+
+.dashboard-option-btn:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+    transform: scale(1.05); /* Slight scale-up on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow on hover */
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* Styles specifically for printing the receipt */
+@media print {
+  body * {
+    visibility: hidden; /* Hide everything by default when printing */
+  }
+  /* Make only the receipt section and its contents visible */
+  #receipt-section, #receipt-section * {
+    visibility: visible;
+  }
+  /* Position the receipt section at the top-left of the print page */
+  #receipt-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    background-color: #ffffff; /* Ensure white background for print */
+  }
+   /* Hide buttons and other non-receipt elements during print */
+  .button-group, .logout-btn, header, .student-search, #student-details-section h2, #receipt-section h2 {
+      display: none;
+  }
+  #receipt-content {
+      border: none; /* Remove dashed border for cleaner print */
+  }
+}
