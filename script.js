@@ -327,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       };
       var rzp1 = new Razorpay(options);
+      console.log("Opening Razorpay checkout..."); // Add this line here
       rzp1.open();
     });
   }
