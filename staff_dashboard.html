@@ -1,862 +1,850 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Login - SVEC Fee Management</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap">
+    <title>Staff Dashboard - SVEC Fee Management</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
     <style>
-        /* 2025 Design System - Desktop Focus */
         :root {
-            /* 2025 Color Palette */
-            --primary: #006B54;        /* Deep Emerald */
-            --primary-dark: #004D3A;
-            --primary-light: #E0F2EC;
-            --secondary: #9E1B32;      /* Academic Crimson */
-            --secondary-light: #F8E8EB;
-            --accent: #D4AF37;         /* Gold */
-            --accent-light: #F5E9C8;
-            --dark: #1A1A1A;           /* Rich Black */
-            --light: #FDFDFD;          /* Pure White */
-            --gray: #6B7280;
-            --gray-light: #F3F4F6;
-
-            /* 2025 Typography */
-            --font-main: 'Inter', sans-serif;
-            --font-display: 'Playfair Display', serif;
-
-            /* 2025 Spacing System */
-            --space-3xs: 0.25rem;      /* 4px */
-            --space-2xs: 0.5rem;       /* 8px */
-            --space-xs: 0.75rem;       /* 12px */
-            --space-sm: 1rem;          /* 16px */
-            --space-md: 1.5rem;        /* 24px */
-            --space-lg: 2rem;          /* 32px */
-            --space-xl: 3rem;          /* 48px */
-            --space-2xl: 4rem;         /* 64px */
-            --space-3xl: 6rem;         /* 96px */
-
-            /* 2025 Border Radius */
-            --radius-sm: 0.25rem;      /* 4px */
-            --radius-md: 0.5rem;       /* 8px */
-            --radius-lg: 1rem;         /* 16px */
-            --radius-xl: 2rem;         /* 32px */
-            --radius-round: 50%;
-
-            /* 2025 Shadows */
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
-            /* 2025 Animation */
+            /* Enhanced Color Palette */
+            --crimson: #9E1B32;
+            --ivy-green: #006B54;
+            --stone: #F8F9FA;
+            --slate: #2C3E50;
+            --gold: #D4AF37;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            
+            /* Typography */
+            --font-main: 'Segoe UI', system-ui, sans-serif;
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-md: 1rem;
+            --text-lg: 1.25rem;
+            --text-xl: 1.5rem;
+            --text-xxl: 2rem;
+            
+            /* Spacing */
+            --space-xxs: 0.25rem;
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-xxl: 3rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            
+            /* Transitions */
             --transition-fast: 0.15s ease;
             --transition-normal: 0.3s ease;
             --transition-slow: 0.5s ease;
-
-            /* Dark Mode Variables */
-            --dark-bg: #121212;
-            --dark-surface: #1E1E1E;
-            --dark-text: #E0E0E0;
-            --dark-border: #333333;
+            
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
         }
 
         /* Base Styles */
-        * {
+        body {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
+            min-height: 100vh;
             font-family: var(--font-main);
-            color: var(--dark);
-            background-color: var(--light);
+            color: var(--slate);
             line-height: 1.6;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background:
+                linear-gradient(135deg, var(--stone) 0%, #FFFFFF 100%),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px var(--space-lg),
+                    rgba(0, 107, 84, 0.03) var(--space-lg) calc(var(--space-lg) * 2)
+                );
             overflow-x: hidden;
-            transition: background-color var(--transition-normal), color var(--transition-normal);
         }
 
-        /* Dark Mode */
-        body.dark-mode {
-            background-color: var(--dark-bg);
-            color: var(--dark-text);
-        }
-
-        /* 2025 Cursor Styles */
-        body {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23006B54" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20L12 4L4 20"/></svg>'), auto;
-        }
-
-        a, button, input[type="submit"], input[type="button"], .clickable {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%239E1B32" stroke="%23FFFFFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>'), pointer;
-        }
-
-        /* Full-Page Header with Organic Shapes */
-        .header-container {
-            position: relative;
-            height: 40vh;
-            min-height: 400px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light);
-            text-align: center;
-            padding: var(--space-2xl);
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-        }
-
-        .header-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" opacity="0.05"><path d="M0,100 C150,200 350,0 500,100 C650,200 750,0 800,100 L800,600 L0,600 Z" fill="%23D4AF37"/></svg>');
-            background-size: cover;
-            background-position: bottom;
-            z-index: 1;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-        }
-
-        .university-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto var(--space-lg);
-            background: var(--light);
-            border-radius: var(--radius-round);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-xl);
-            border: 4px solid var(--accent);
-            transition: transform var(--transition-normal);
-        }
-
-        .university-logo:hover {
-            transform: rotate(15deg) scale(1.05);
-        }
-
-        .university-logo::after {
-            content: 'SVEC';
-            color: var(--primary);
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: 1.5px;
-        }
-
-        .header-title {
-            font-family: var(--font-display);
-            font-size: 3rem;
-            font-weight: 600;
-            margin-bottom: var(--space-sm);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: var(--space-md);
-        }
-
-        /* Main Content with Parallax Effect */
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--space-2xl);
-            position: relative;
-            z-index: 2;
-            margin-top: -5vh;
-        }
-
-        /* Login Card with 2025 Glassmorphism */
-        .login-container {
-            width: 100%;
-            max-width: 500px;
-            perspective: 1000px;
-        }
-
-        .login-card {
+        /* Glassmorphism Effect */
+        .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: var(--radius-xl);
-            padding: var(--space-2xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-normal);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
             box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform-style: preserve-3d;
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal);
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl) 0;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg);
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            color: var(--slate);
+            font-size: var(--text-xl);
+            margin: 0 0 var(--space-xs);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            color: var(--ivy-green);
+            margin: 0;
+            font-size: var(--text-md);
+            font-weight: 500;
+        }
+
+        header h3 {
+            color: var(--crimson);
+            margin: var(--space-md) 0 0;
+            font-size: var(--text-lg);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Dashboard Sections */
+        section {
+            margin-bottom: var(--space-xl);
             position: relative;
             overflow: hidden;
         }
 
-        .dark-mode .login-card {
-            background: rgba(30, 30, 30, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .login-card::before {
+        section::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                to bottom right,
-                rgba(214, 175, 55, 0.1) 0%,
-                rgba(158, 27, 50, 0.1) 50%,
-                rgba(0, 107, 84, 0.1) 100%
+            background: conic-gradient(
+                from 0deg,
+                transparent 0% 20%,
+                var(--ivy-green) 20% 30%,
+                transparent 30% 70%,
+                var(--crimson) 70% 80%,
+                transparent 80% 100%
             );
-            transform: rotate(30deg);
+            opacity: 0.08;
+            animation: rotate 30s linear infinite;
             z-index: -1;
-            animation: gradientFlow 15s ease infinite;
         }
 
-        @keyframes gradientFlow {
-            0% { transform: rotate(30deg) translate(-10%, -10%); }
-            50% { transform: rotate(30deg) translate(10%, 10%); }
-            100% { transform: rotate(30deg) translate(-10%, -10%); }
+        section h2 {
+            color: var(--slate);
+            font-size: var(--text-lg);
+            margin: 0 0 var(--space-lg);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
         }
 
-        .login-card:hover {
-            transform: translateY(-5px) rotateX(5deg);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .portal-title {
-            font-family: var(--font-display);
-            font-size: 1.75rem;
-            color: var(--primary);
-            margin-bottom: var(--space-xl);
-            text-align: center;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .dark-mode .portal-title {
-            color: var(--accent-light);
-        }
-
-        .portal-title::before,
-        .portal-title::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .portal-title::before {
-            left: 0;
-        }
-
-        .portal-title::after {
-            right: 0;
-        }
-
-        /* Form Elements with Micro-interactions */
+        /* Form Elements */
         .form-group {
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-md);
             position: relative;
         }
 
         .form-group label {
             display: block;
             margin-bottom: var(--space-xs);
-            color: var(--dark);
+            color: var(--slate);
+            font-size: var(--text-sm);
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: color var(--transition-fast);
         }
 
-        .dark-mode .form-group label {
-            color: var(--dark-text);
-        }
-
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: var(--space-sm) var(--space-md);
-            border: 2px solid var(--gray-light);
-            border-radius: var(--radius-lg);
-            font-size: 1rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            transition: all var(--transition-normal);
-            box-shadow: var(--shadow-sm);
+            padding: var(--space-sm);
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
+            background: rgba(255, 255, 255, 0.9);
+            transition: var(--transition-fast);
+            font-family: var(--font-main);
         }
 
-        .dark-mode .form-group input {
-            background-color: rgba(30, 30, 30, 0.8);
-            border-color: var(--dark-border);
-            color: var(--dark-text);
-        }
-
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 107, 84, 0.2);
-            background-color: var(--light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        .dark-mode .form-group input:focus {
-            background-color: rgba(30, 30, 30, 0.9);
-            box-shadow: 0 0 0 3px rgba(0, 107, 84, 0.4);
-        }
-
-        .password-container {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: var(--space-md);
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: var(--space-3xs);
-            border-radius: var(--radius-round);
-            transition: all var(--transition-fast);
-        }
-
-        .toggle-password:hover {
-            color: var(--primary);
-            background-color: var(--primary-light);
-        }
-
-        .dark-mode .toggle-password:hover {
-            background-color: rgba(0, 107, 84, 0.3);
-        }
-
-        /* Form Footer */
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: var(--space-lg) 0 var(--space-md);
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-        }
-
-        .remember-me input {
-            width: auto;
-            margin-right: var(--space-xs);
-            accent-color: var(--primary);
-        }
-
-        .forgot-password a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color var(--transition-fast);
-            position: relative;
-        }
-
-        .dark-mode .forgot-password a {
-            color: var(--accent-light);
-        }
-
-        .forgot-password a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--primary);
-            transition: width var(--transition-normal);
-        }
-
-        .dark-mode .forgot-password a::after {
-            background-color: var(--accent-light);
-        }
-
-        .forgot-password a:hover {
-            color: var(--primary-dark);
-        }
-
-        .dark-mode .forgot-password a:hover {
-            color: var(--accent);
-        }
-
-        .forgot-password a:hover::after {
-            width: 100%;
-        }
-
-        /* Login Button with 2025 Neumorphism */
-        .login-btn {
-            width: 100%;
-            padding: var(--space-sm) var(--space-xl);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--light);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: 1rem;
+        /* Buttons */
+        button {
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
             font-weight: 600;
             cursor: pointer;
-            transition: all var(--transition-normal);
-            box-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.1),
-                0 1px 3px rgba(0, 0, 0, 0.08),
-                inset 0 1px 1px rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            transition: var(--transition-fast);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
         }
 
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .dashboard-option-btn {
+            background: var(--primary);
+            color: white;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            opacity: 0;
-            transition: opacity var(--transition-normal);
-            z-index: -1;
+            margin-bottom: var(--space-sm);
         }
 
-        .login-btn:hover {
+        .dashboard-option-btn:hover {
+            background: var(--primary-light);
             transform: translateY(-2px);
-            box-shadow:
-                0 10px 15px rgba(0, 0, 0, 0.1),
-                0 4px 6px rgba(0, 0, 0, 0.05),
-                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-md);
         }
 
-        .login-btn:hover::before {
-            opacity: 1;
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Dark Mode Toggle */
-        .dark-mode-toggle {
+        .logout-btn {
             position: absolute;
             top: var(--space-lg);
             right: var(--space-lg);
-            width: 50px;
-            height: 24px;
-            background: var(--gray-light);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background var(--transition-normal);
-            z-index: 100;
+            background: var(--crimson);
+            color: white;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
         }
 
-        .dark-mode .dark-mode-toggle {
-            background: var(--dark-surface);
+        .back-button {
+            background: var(--slate);
+            color: white;
+            margin-bottom: var(--space-md);
         }
 
-        .dark-mode-toggle::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background: var(--light);
-            border-radius: 50%;
-            transition: transform var(--transition-normal);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
         }
 
-        .dark-mode .dark-mode-toggle::before {
-            transform: translateX(26px);
-            background: var(--accent);
+        .stat-card {
+            padding: var(--space-lg);
         }
 
-        /* Error Message with Shake Animation */
-        .error-message {
-            color: var(--secondary);
-            margin-top: var(--space-md);
-            text-align: center;
-            font-size: 0.9rem;
+        .stat-card h3 {
+            color: var(--ivy-green);
+            font-size: var(--text-sm);
+            margin: 0 0 var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .stat-value {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--slate);
+            margin-bottom: var(--space-xs);
+        }
+
+        /* Payment History Table */
+        .payment-history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: var(--space-md) 0;
+        }
+
+        .payment-history-table th {
+            background-color: var(--ivy-green);
+            color: white;
+            text-align: left;
             padding: var(--space-sm);
-            background: var(--secondary-light);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(158, 27, 50, 0.2);
-            display: none;
-            transform-origin: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
         }
 
-        .dark-mode .error-message {
-            background: rgba(158, 27, 50, 0.2);
-            border-color: rgba(158, 27, 50, 0.3);
+        .payment-history-table td {
+            padding: var(--space-sm);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .error-message.active {
-            display: block;
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        .payment-history-table tr:last-child td {
+            border-bottom: none;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotate(-2deg); }
-            20%, 40%, 60%, 80% { transform: translateX(8px) rotate(2deg); }
+        .payment-history-table tr:hover {
+            background-color: rgba(0, 107, 84, 0.03);
         }
 
-        /* Floating Organic Shapes */
-        .organic-shape {
-            position: absolute;
-            opacity: 0.1;
-            z-index: -1;
-            pointer-events: none;
+        /* Recent Transactions */
+        .recent-payments {
+            padding: var(--space-lg);
         }
 
-        .shape-1 {
-            top: 20%;
-            left: 5%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: float 8s ease-in-out infinite;
+        .filter-controls {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
         }
 
-        .shape-2 {
-            bottom: 10%;
-            right: 5%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation: float 10s ease-in-out infinite reverse;
+        .filter-controls input[type="date"] {
+            padding: var(--space-sm);
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-main);
+            transition: var(--transition-fast);
         }
 
-        .shape-3 {
-            top: 60%;
-            left: 30%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            border-radius: 50% 50% 20% 80% / 60% 40% 60% 40%;
-            animation: float 7s ease-in-out infinite 2s;
+        .filter-controls input[type="date"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-            100% { transform: translateY(0) rotate(0deg); }
+        .filter-btn {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
+        .filter-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .recent-payments-list {
+            margin-top: var(--space-md);
+            max-height: 500px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .recent-payments-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .recent-payments-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .recent-payments-list::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
             padding: var(--space-md);
-            font-size: 0.8rem;
-            color: var(--gray);
-            background-color: var(--light);
-            border-top: 1px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-xs);
+            transition: var(--transition-fast);
         }
 
-        .dark-mode .footer {
-            background-color: var(--dark-surface);
-            border-top-color: var(--dark-border);
-            color: var(--gray);
+        .payment-item:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+            transform: translateX(5px);
+        }
+
+        .payment-info {
+            flex: 2;
+        }
+
+        .payment-amount {
+            flex: 1;
+            text-align: right;
+            font-weight: 700;
+            color: var(--ivy-green);
+        }
+
+        .transaction-summary {
+            text-align: right;
+            margin-top: var(--space-lg);
+            font-size: var(--text-md);
+            color: var(--slate);
+            padding: var(--space-sm);
+            background: rgba(0,0,0,0.02);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .error-message {
+            color: var(--crimson);
+            padding: var(--space-sm);
+            background: rgba(158, 27, 50, 0.1);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(158, 27, 50, 0.2);
+            margin-top: var(--space-sm);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .success-message {
+            color: var(--ivy-green);
+            padding: var(--space-sm);
+            background: rgba(0, 107, 84, 0.1);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(0, 107, 84, 0.2);
+            margin-top: var(--space-sm);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease forwards;
         }
 
         /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            .header-container {
-                height: 30vh;
-                min-height: 300px;
-                clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            :root {
+                --text-xs: 0.75rem;
+                --text-sm: 0.875rem;
+                --text-md: 0.9375rem;
+                --text-lg: 1.125rem;
+                --text-xl: 1.25rem;
             }
 
-            .header-title {
-                font-size: 2rem;
+            .container {
+                width: 95%;
+                padding: var(--space-lg) 0;
             }
 
-            .header-subtitle {
-                font-size: 1rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
-            .main-content {
-                padding: var(--space-lg);
-            }
-
-            .login-card {
-                padding: var(--space-xl);
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
 </head>
 <body>
-    <div class="dark-mode-toggle" id="dark-mode-toggle"></div>
+    <div class="container">
+        <header class="glass-card animate-in" style="animation-delay: 0.1s;">
+            <h1>Sri Venkateshwara Engineering College</h1>
+            <p>Affiliated to JNTU-H, Suryapet-508213, Telangana</p>
+            <h3>Cashless Fee Management System - Staff Dashboard</h3>
+            <button id="logout-button" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </header>
 
-    <div class="organic-shape shape-1"></div>
-    <div class="organic-shape shape-2"></div>
-    <div class="organic-shape shape-3"></div>
-
-    <div class="header-container">
-        <div class="header-content">
-            <div class="university-logo"></div>
-            <h1 class="header-title">Sri Venkateshwara Engineering College</h1>
-            <p class="header-subtitle">Affiliated to JNTU-H, Suryapet-508213, Telangana</p>
-            <h3>Cashless Fee Management System</h3>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div class="login-container">
-            <div class="login-card">
-                <h2 class="portal-title">Staff Portal</h2>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="userId">Email Address</label>
-                        <input type="email" id="userId" name="userId" required autocomplete="username" placeholder="faculty@svec.edu.in">
-                    </div>
-                    <div class="form-group password-container">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
-                        <button type="button" class="toggle-password" id="togglePassword">👁</button>
-                    </div>
-                    <div class="form-footer">
-                        <div class="remember-me">
-                            <input type="checkbox" id="rememberMe" name="rememberMe">
-                            <label for="rememberMe">Remember me</label>
-                        </div>
-                        <div class="forgot-password">
-                            <a href="#" id="forgotPassword">Forgot password?</a>
-                        </div>
-                    </div>
-                    <button type="submit" class="login-btn">Login</button>
-                    <p id="login-error" class="error-message"></p>
-                </form>
+        <section id="dashboard-options" class="glass-card animate-in" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-tachometer-alt"></i> Dashboard Options</h2>
+            <div class="options-group">
+                <button id="fetch-fee-details-button" class="dashboard-option-btn">
+                    <i class="fas fa-search"></i> Fetch Student Details
+                </button>
+                <button id="add-student-button" class="dashboard-option-btn">
+                    <i class="fas fa-user-plus"></i> Add New Student
+                </button>
+                <button id="show-management-dashboard-button" class="dashboard-option-btn">
+                    <i class="fas fa-chart-line"></i> Management Dashboard
+                </button>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <footer class="footer">
-        <p>© 2025 SVEC Fee Management System. All rights reserved.</p>
-    </footer>
+        <section id="management-dashboard" class="hidden glass-card animate-in" style="animation-delay: 0.3s;">
+            <h2><i class="fas fa-chart-line"></i> Management Dashboard</h2>
+            <button onclick="showSection('dashboard-options')" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Main
+            </button>
+
+            <div class="stats-grid">
+                <div class="stat-card glass-card">
+                    <h3><i class="fas fa-users"></i> Student Statistics</h3>
+                    <div class="stat-value" id="total-students">0</div>
+                    <p>Total Enrolled Students</p>
+                </div>
+
+                <div class="stat-card glass-card">
+                    <h3><i class="fas fa-rupee-sign"></i> Today's Payments</h3>
+                    <div class="stat-value">₹<span id="daily-total">0</span></div>
+                    <p>Transactions: <span id="daily-count">0</span></p>
+                </div>
+
+                <div class="stat-card glass-card">
+                    <h3><i class="fas fa-calendar-alt"></i> Monthly Report</h3>
+                    <input type="month" id="report-month" class="form-control">
+                    <div class="stat-value">₹<span id="monthly-total">0</span></div>
+                </div>
+            </div>
+
+            <div class="payment-history-search">
+                <h3><i class="fas fa-history"></i> Student Payment History</h3>
+                <div class="search-group">
+                    <input type="text" id="payment-search-id" placeholder="Enter Student ID">
+                    <button onclick="searchPaymentHistory()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div id="payment-history-list" class="payment-history-list"></div>
+            </div>
+
+            <div class="recent-payments">
+                <h3><i class="fas fa-exchange-alt"></i> Recent Transactions</h3>
+                
+                <div class="filter-controls">
+                    <input type="date" id="transaction-filter-date" class="glass-card" style="flex-grow:1;">
+                    <button onclick="filterTransactionsByDate()" class="filter-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <button onclick="clearDateFilter()" class="filter-btn" style="background: var(--slate);">
+                        <i class="fas fa-sync-alt"></i> Clear
+                    </button>
+                </div>
+                
+                <div id="recent-payments-list" class="recent-payments-list">
+                    <!-- Transactions will be loaded here -->
+                </div>
+                
+                <div class="transaction-summary glass-card">
+                    Showing <span id="filtered-count">0</span> transactions • Total: ₹<span id="filtered-total">0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="search-section" class="hidden glass-card animate-in" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-search"></i> Find Student Fee Details</h2>
+            <form id="student-search-form">
+                <div class="form-group">
+                    <label for="searchStudentId"><i class="fas fa-id-card"></i> Enter Student ID:</label>
+                    <input type="text" id="searchStudentId" name="searchStudentId" required>
+                </div>
+                <button type="submit" class="dashboard-option-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <p id="search-error" class="error-message"></p>
+            </form>
+            <button onclick="showSection('dashboard-options')" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </section>
+
+        <section id="add-student-section" class="hidden glass-card animate-in" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-user-plus"></i> Add New Student</h2>
+            <form id="add-student-form">
+                <div class="form-group">
+                    <label for="studentId"><i class="fas fa-id-card"></i> Student ID:</label>
+                    <input type="text" id="studentId" name="studentId" required>
+                </div>
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Student Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="fathername"><i class="fas fa-male"></i> Father's Name:</label>
+                    <input type="text" id="fathername" name="fathername" required>
+                </div>
+                <div class="form-group">
+                    <label for="mothername"><i class="fas fa-female"></i> Mother's Name:</label>
+                    <input type="text" id="mothername" name="mothername" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobilenumber"><i class="fas fa-phone"></i> Mobile Number:</label>
+                    <input type="tel" id="mobilenumber" name="mobilenumber" required pattern="[0-9]{10}">
+                </div>
+                <div class="form-group">
+                    <label for="course"><i class="fas fa-graduation-cap"></i> Course:</label>
+                    <select id="course" name="course" required>
+                        <option value="">Select Course</option>
+                        <option value="B.Tech">B.Tech</option>
+                        <option value="M.Tech">M.Tech</option>
+                        <option value="MBA">MBA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="B.Sc">B.Sc</option>
+                        <option value="M.Sc">M.Sc</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="year"><i class="fas fa-calendar-alt"></i> Year:</label>
+                    <select id="year" name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="I Year">I Year</option>
+                        <option value="II Year">II Year</option>
+                        <option value="III Year">III Year</option>
+                        <option value="IV Year">IV Year</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="totalfee"><i class="fas fa-rupee-sign"></i> Total Fee (₹):</label>
+                    <input type="number" id="totalfee" name="totalfee" required min="0" step="1000">
+                </div>
+                <div class="form-group">
+                    <label for="balancefee"><i class="fas fa-rupee-sign"></i> Balance Fee (₹):</label>
+                    <input type="number" id="balancefee" name="balancefee" required min="0" step="1000">
+                </div>
+                <button type="submit" class="dashboard-option-btn">
+                    <i class="fas fa-save"></i> Add Student
+                </button>
+                <p id="add-student-message" class="error-message"></p>
+            </form>
+            <button onclick="showSection('dashboard-options')" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </section>
+
+        <section id="student-details-section" class="hidden glass-card animate-in" style="animation-delay: 0.2s;">
+            <h2><i class="fas fa-user-graduate"></i> Student Details</h2>
+            <div id="student-info">
+                <p><strong><i class="fas fa-id-card"></i> Student ID:</strong> <span id="s-studentId"></span></p>
+                <p><strong><i class="fas fa-user"></i> Name:</strong> <span id="s-name"></span></p>
+                <p><strong><i class="fas fa-male"></i> Father's Name:</strong> <span id="s-fathername"></span></p>
+                <p><strong><i class="fas fa-female"></i> Mother's Name:</strong> <span id="s-mothername"></span></p>
+                <p><strong><i class="fas fa-phone"></i> Mobile Number:</strong> <span id="s-mobilenumber"></span></p>
+                <p><strong><i class="fas fa-graduation-cap"></i> Course:</strong> <span id="s-course"></span></p>
+                <p><strong><i class="fas fa-calendar-alt"></i> Year:</strong> <span id="s-year"></span></p>
+                <p><strong><i class="fas fa-rupee-sign"></i> Total Fee:</strong> ₹<span id="s-totalfee"></span></p>
+                <p><strong><i class="fas fa-rupee-sign"></i> Balance Fee:</strong> ₹<span id="s-balancefee"></span></p>
+            </div>
+
+            <div class="payment-methods">
+                <h3><i class="fas fa-money-bill-wave"></i> Select Payment Method</h3>
+                <div class="method-option">
+                    <input type="radio" id="method-razorpay" name="payment-method" value="razorpay" checked>
+                    <label for="method-razorpay"><i class="fas fa-credit-card"></i> Online Payment (Razorpay)</label>
+                </div>
+                <div class="method-option">
+                    <input type="radio" id="method-cash" name="payment-method" value="cash">
+                    <label for="method-cash"><i class="fas fa-money-bill-alt"></i> Cash Payment</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="payment-amount"><i class="fas fa-rupee-sign"></i> Amount (₹):</label>
+                <input type="number" id="payment-amount" min="1" step="100" placeholder="Enter amount to pay">
+            </div>
+            <button id="pay-fee-button" class="dashboard-option-btn">
+                <i class="fas fa-hand-holding-usd"></i> Pay Fee
+            </button>
+            <p id="payment-message" class="error-message"></p>
+
+            <div class="button-group">
+                <button id="back-to-search-button" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Back to Search
+                </button>
+                <button id="back-to-dashboard-from-details" class="back-button">
+                    <i class="fas fa-tachometer-alt"></i> Back to Dashboard
+                </button>
+            </div>
+        </section>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    
+    <script src="auth.js"></script>
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCkTBWZvm3gAH1njiSHYEPrZUJmF_DBT4c",
-            authDomain: "cashless-fee-payment.firebaseapp.com",
-            projectId: "cashless-fee-payment",
-            storageBucket: "cashless-fee-payment.appspot.com",
-            messagingSenderId: "528515335884",
-            appId: "1:528515335884:web:3002a89c90844e960b2469"
-        };
-
-        // Initialize Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // DOM Elements
-        const loginForm = document.getElementById('login-form');
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const loginError = document.getElementById('login-error');
-        const rememberMe = document.getElementById('rememberMe');
-        const forgotPassword = document.getElementById('forgotPassword');
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-
-        // Auth state handler
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is signed in
-                if (window.location.pathname.endsWith('login.html')) {
-                    window.location.href = 'staff_dashboard.html';
-                }
-            } else {
-                // User is signed out
-                if (!window.location.pathname.endsWith('login.html')) {
-                    window.location.href = 'login.html';
-                }
-            }
-        });
-
-        // Dark Mode Toggle
-        darkModeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        });
-
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-
-        // Toggle password visibility
-        togglePassword.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁' : '🔒';
-        });
-
-        // Check for remembered credentials
-        window.addEventListener('DOMContentLoaded', () => {
-            const rememberedEmail = localStorage.getItem('rememberedEmail');
-            if (rememberedEmail) {
-                document.getElementById('userId').value = rememberedEmail;
-                rememberMe.checked = true;
-            }
-        });
-
-        // Form submission with enhanced error handling
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('userId').value.trim();
-            const password = passwordInput.value.trim();
-
-            // Clear previous errors
-            loginError.classList.remove('active');
-            loginError.textContent = '';
-            loginForm.style.animation = 'none';
-
-            // Validate inputs
-            if (!email || !password) {
-                showError('Please fill in all fields');
-                return;
-            }
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('Please enter a valid email address');
-                return;
-            }
-
-            if (!email.endsWith('@svec.edu.in')) {
-                showError('Please use your institutional email');
-                return;
-            }
-
-            try {
-                // Show loading state
-                loginError.textContent = 'Authenticating...';
-                loginError.style.color = 'var(--primary)';
-                loginError.style.backgroundColor = 'var(--primary-light)';
-                loginError.style.borderColor = 'rgba(0, 107, 84, 0.3)';
-                loginError.classList.add('active');
-
-                // Sign in with Firebase Auth
-                await auth.signInWithEmailAndPassword(email, password);
-                
-                // Save email if "Remember me" is checked
-                if (rememberMe.checked) {
-                    localStorage.setItem('rememberedEmail', email);
-                } else {
-                    localStorage.removeItem('rememberedEmail');
-                }
-
-                // The auth state change handler will handle the redirect
-
-            } catch (error) {
-                handleAuthError(error);
-            }
-        });
-
-        // Forgot password handler
-        forgotPassword.addEventListener('click', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('userId').value.trim();
-
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('Please enter your institutional email first');
-                return;
-            }
-
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    loginError.textContent = `Password reset link sent to ${email}`;
-                    loginError.style.color = 'var(--primary)';
-                    loginError.style.backgroundColor = 'var(--primary-light)';
-                    loginError.style.borderColor = 'rgba(0, 107, 84, 0.3)';
-                    loginError.classList.add('active');
+        // Enhanced Transaction Management
+        let allTransactions = [];
+        
+        function loadTransactions() {
+            db.collection("payments")
+                .orderBy("studentId", "asc")
+                .orderBy("timestamp", "desc")
+                .limit(50)
+                .get()
+                .then((querySnapshot) => {
+                    allTransactions = querySnapshot.docs.map(doc => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            studentId: data.studentId,
+                            name: data.studentName || "Student",
+                            amount: data.amount || 0,
+                            method: data.paymentMethod || "cash",
+                            status: data.status || "completed",
+                            timestamp: data.timestamp
+                        };
+                    });
+                    displayTransactions(allTransactions);
                 })
                 .catch((error) => {
-                    handleAuthError(error);
+                    console.error("Error loading transactions: ", error);
+                    loadSampleTransactions();
                 });
-        });
-
-        // Show error message with shake animation
-        function showError(message) {
-            loginError.textContent = message;
-            loginError.style.color = 'var(--secondary)';
-            loginError.style.backgroundColor = 'var(--secondary-light)';
-            loginError.style.borderColor = 'rgba(158, 27, 50, 0.3)';
-            loginError.classList.add('active');
-
-            // Shake animation
-            loginForm.style.animation = 'none';
-            void loginForm.offsetWidth; // Trigger reflow
-            loginForm.style.animation = 'shake 0.5s';
         }
-
-        // Handle authentication errors
-        function handleAuthError(error) {
-            let errorMessage = 'Authentication failed. Please try again.';
+        
+        function displayTransactions(transactions) {
+            const container = document.getElementById('recent-payments-list');
+            container.innerHTML = '';
             
-            switch (error.code) {
-                case 'auth/invalid-email':
-                    errorMessage = 'Invalid email address format';
-                    break;
-                case 'auth/user-disabled':
-                    errorMessage = 'This account has been disabled';
-                    break;
-                case 'auth/user-not-found':
-                case 'auth/wrong-password':
-                    errorMessage = 'Invalid email or password';
-                    break;
-                case 'auth/too-many-requests':
-                    errorMessage = 'Too many attempts. Please try again later';
-                    break;
-                case 'auth/network-request-failed':
-                    errorMessage = 'Network error. Please check your connection';
-                    break;
+            if (transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="payment-item" style="justify-content:center;">
+                        <p style="color:var(--slate);">No transactions found</p>
+                    </div>
+                `;
+                updateSummary(0, 0);
+                return;
             }
-
-            showError(errorMessage);
+            
+            transactions.forEach(txn => {
+                const date = txn.timestamp.toDate();
+                const dateStr = date.toLocaleDateString('en-IN');
+                const timeStr = date.toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit'});
+                
+                const item = document.createElement('div');
+                item.className = 'payment-item glass-card';
+                item.innerHTML = `
+                    <div class="payment-info">
+                        <div style="font-weight:600;">${txn.name} <small style="color:var(--slate);opacity:0.7;">(${txn.studentId})</small></div>
+                        <div style="font-size:var(--text-xs);color:var(--slate);">
+                            <i class="far fa-clock"></i> ${dateStr} • ${timeStr} 
+                            <span style="margin:0 var(--space-xs);">•</span>
+                            <i class="fas fa-${txn.method === 'razorpay' ? 'credit-card' : 'money-bill-alt'}"></i> ${txn.method === 'razorpay' ? 'Online' : 'Cash'}
+                        </div>
+                    </div>
+                    <div class="payment-amount">
+                        ₹${txn.amount.toLocaleString('en-IN', {minimumFractionDigits:2})}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            updateSummary(transactions.length, calculateTotal(transactions));
         }
-
-        // Parallax effect on scroll
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.pageYOffset;
-            const header = document.querySelector('.header-container');
-            header.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+        
+        function calculateTotal(transactions) {
+            return transactions.reduce((sum, txn) => sum + txn.amount, 0);
+        }
+        
+        function updateSummary(count, total) {
+            document.getElementById('filtered-count').textContent = count;
+            document.getElementById('filtered-total').textContent = total.toLocaleString('en-IN', {
+                minimumFractionDigits: 2
+            });
+        }
+        
+        function filterTransactionsByDate() {
+            const dateInput = document.getElementById('transaction-filter-date').value;
+            if (!dateInput) {
+                displayTransactions(allTransactions);
+                return;
+            }
+            
+            const filtered = allTransactions.filter(txn => {
+                const txnDate = txn.timestamp.toDate().toISOString().split('T')[0];
+                return txnDate === dateInput;
+            });
+            displayTransactions(filtered);
+        }
+        
+        function clearDateFilter() {
+            document.getElementById('transaction-filter-date').value = '';
+            displayTransactions(allTransactions);
+        }
+        
+        function loadSampleTransactions() {
+            allTransactions = [
+                {
+                    id: "TXN" + Math.floor(Math.random() * 10000),
+                    studentId: "S00123",
+                    name: "Sample Student",
+                    amount: 12500,
+                    method: "razorpay",
+                    status: "completed",
+                    timestamp: firebase.firestore.Timestamp.now()
+                }
+            ];
+            displayTransactions(allTransactions);
+        }
+        
+        // Initialize when management dashboard is shown
+        document.getElementById('show-management-dashboard-button').addEventListener('click', () => {
+            showSection('management-dashboard');
+            loadTransactions();
+        });
+        
+        // Navigation function
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+        
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add animation to all cards
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Navigation buttons
+            document.getElementById('fetch-fee-details-button').addEventListener('click', () => showSection('search-section'));
+            document.getElementById('add-student-button').addEventListener('click', () => showSection('add-student-section'));
+            document.getElementById('back-button').addEventListener('click', () => showSection('dashboard-options'));
+            document.getElementById('back-to-dashboard-from-add').addEventListener('click', () => showSection('dashboard-options'));
+            document.getElementById('back-to-search-button').addEventListener('click', () => showSection('search-section'));
+            document.getElementById('back-to-dashboard-from-details').addEventListener('click', () => showSection('dashboard-options'));
+            
+            // Logout button
+            document.getElementById('logout-button').addEventListener('click', () => {
+                // Implement your logout logic here
+                window.location.href = 'index.html';
+            });
         });
     </script>
-
 </body>
 </html>
